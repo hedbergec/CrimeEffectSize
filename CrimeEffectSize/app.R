@@ -3,7 +3,6 @@ library(shiny)
 library(dplyr)
 library(data.table)
 library(plotly)
-library(glmnet)
 library(mvmeta)
 library(shinythemes)
 
@@ -38,7 +37,7 @@ server <- function(input, output) {
     )
   })
   
-  populationname <- reactive({
+  populationname <- reactive({ #creates a reactive object that changes with input
     if (input$pop == "_tot") {
       popname <- "Total population"
     }
@@ -226,7 +225,7 @@ server <- function(input, output) {
     return(form)
   })
   
-  results_model <- reactive({
+  results_model <- reactive({ #estimate model
     lm(as.formula(model_formula()), data = crimedata())
   })
   
@@ -526,8 +525,7 @@ server <- function(input, output) {
           "(",populationname(),")")
   })
   
-  ###### THE META ANALYSIS STUFF #####
-  
+  ###### THE META ANALYSIS #####
   
   output$meta_popmenu <- renderUI({
     selectInput(
